@@ -2,6 +2,7 @@ import os
 import markdown
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+import argparse
 
 def get_posts(posts_folder):
 
@@ -48,8 +49,13 @@ def extract_keywords(feature_names, sorted_items, topn=10):
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(description='Extract topics from markdown files')
+    parser.add_argument("posts_folder", type=str, help='Filepath of posts')
+
+    args = parser.parse_args()
+
     #Get posts
-    posts = get_posts('./_posts')
+    posts = get_posts(args.posts_folder)
 
     #Initialise count vectorizer and transformer
     vectorizer = CountVectorizer(stop_words='english', ngram_range=(1, 5), max_features=10000)
